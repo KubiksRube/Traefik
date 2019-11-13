@@ -57,11 +57,11 @@ rule = "Host:cockpit.{{domain.stdout}}"
 
 # [file]
 #   watch = true
-#   filename = "./domains.toml"
+#   filename = "/etc/traefik/domains.toml"
 
 [file]
   watch = true
-  filename = "./servers.toml"
+  filename = "/etc/traefik/servers.toml"
 
 [docker]
 endpoint = "unix:///var/run/docker.sock"
