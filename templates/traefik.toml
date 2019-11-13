@@ -55,6 +55,14 @@ passHostHeader = true
 [frontends.cockpit.routes.cockpit]
 rule = "Host:cockpit.{{domain.stdout}}"
 
+# [file]
+#   watch = true
+#   filename = "./domains.toml"
+
+[file]
+  watch = true
+  filename = "./servers.toml"
+
 [docker]
 endpoint = "unix:///var/run/docker.sock"
 domain = "{{domain.stdout}}"

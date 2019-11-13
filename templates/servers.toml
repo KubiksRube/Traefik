@@ -1,0 +1,41 @@
+[file]
+
+[backends]
+    [backends.freenas]
+        [backends.freenas.servers.freenas]
+            url = "http://192.168.20.10"
+    [backends.plex]
+        [backends.gate.servers.plex]
+            url = "http://192.168.20.20:32400"
+    [backends.pfsense]
+        [backends.pfsense.servers.pfsense]
+            url = "https://192.168.1.1"
+
+[frontends]
+    [frontends.freenas]
+        backend = "freenas"
+        passHostHeader = true
+        SSLRedirect=true
+        [frontends.freenas.auth.forward]
+        address = "http://oauth:4181"
+        authResponseHeaders = ["X-Forwarded-User"]
+        [frontends.freenas.routes.domain]
+            rule = "Host:freenas.murac.com"
+    [frontends.plex]
+        backend = "plex"
+        # passHostHeader = true
+        # SSLRedirect=true
+        # [frontends.plex.auth.forward]
+        # address = "http://oauth:4181"
+        # authResponseHeaders = ["X-Forwarded-User"]
+        [frontends.plex.routes.domain]
+            rule = "Host:plex.murac.com"
+    [frontends.pfsense]
+        backend = "pfsense"
+        passHostHeader = true
+        SSLRedirect=true
+        [frontends.pfsense.auth.forward]
+        address = "http://oauth:4181"
+        authResponseHeaders = ["X-Forwarded-User"]
+        [frontends.pfsense.routes.domain]
+            rule = "Host:pfsense.murac.com"

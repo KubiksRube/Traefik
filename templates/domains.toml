@@ -1,0 +1,3 @@
+[[acme.domains]]
+ main = "*.tanagre.com"
+ sans = ["tanagre.com"]
