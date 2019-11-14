@@ -24,6 +24,18 @@ MinVersion = "VersionTLS12"
 CipherSuites = ["TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256","TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256","TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384","TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384","TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256","TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256"]
 [entryPoints.monitor]
 address = ":8081"
+[entryPoints.ping]
+address = ":8082"
+[entryPoints.api]
+address = ":8083"
+
+[ping]
+entryPoint = "ping"
+
+[api]
+entryPoint = "api"
+dashboard = true
+debug = true
 
 [retry]
 
@@ -32,6 +44,7 @@ acmeLogging = true
 email = "{{email.stdout}}"
 storage = "/etc/traefik/acme/acme.json"
 entryPoint = "https"
+onHostRule = true
 [acme.dnsChallenge]
 provider = "{{provider.stdout}}"
 delayBeforeCheck = "{{delaycheck.stdout}}"
@@ -40,20 +53,6 @@ delayBeforeCheck = "{{delaycheck.stdout}}"
 main = "{{domain.stdout}}"
 [[acme.domains]]
 main = "*.{{domain.stdout}}"
-
-[backends]
-## Cockpit Backend
-[backends.cockpit]
-[backends.cockpit.servers.server]
-url = "https://127.0.0.1:9090"
-
-[frontends]
-## Cockpit Frontend
-[frontends.cockpit]
-backend = "cockpit"
-passHostHeader = true
-[frontends.cockpit.routes.cockpit]
-rule = "Host:cockpit.{{domain.stdout}}"
 
 # [file]
 #   watch = true

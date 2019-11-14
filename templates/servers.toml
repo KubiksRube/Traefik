@@ -13,41 +13,125 @@
     [backends.plex]
         [backends.plex.servers.plex]
             url = "http://192.168.20.20:32400"
+    ## Cockpit Backend
+    [backends.cockpit]
+        [backends.cockpit.loadbalancer.stickiness]
+        [backends.cockpit.servers.cockpit]
+            url = "https://tanagre.home.darmok.io:9090"
+    ## Traefik Backend
+    [backends.traefik]
+        [backends.traefik.servers.traefik]
+            url = "http://localhost:8083"
 
 [frontends]
     [frontends.freenas]
         backend = "freenas"
+        SSLRedirect = true
         passHostHeader = true
-        SSLRedirect=true
+        [frontends.freenas.headers]
+            SSLHost = 'murac.com'
+            FrameDeny = true
+            STSSeconds = 315360000
+            STSIncludeSubdomains = true
+            STSPreload = true
+            ContentTypeNosniff = true
+            BrowserXssFilter = true
+            forceSTSHeader=true
+            customResponseHeaders='X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
         [frontends.freenas.auth.forward]
-        address = "http://oauth:4181"
-        authResponseHeaders = ["X-Forwarded-User"]
+            address = "http://oauth:4181"
+            authResponseHeaders = ["X-Forwarded-User"]
         [frontends.freenas.routes.domain]
             rule = "Host:freenas.murac.com"
     [frontends.prox]
         backend = "prox"
+        SSLRedirect = true
         passHostHeader = true
-        SSLRedirect=true
+        [frontends.prox.headers]
+            SSLHost = 'murac.com'
+            FrameDeny = true
+            STSSeconds = 315360000
+            STSIncludeSubdomains = true
+            STSPreload = true
+            ContentTypeNosniff = true
+            BrowserXssFilter = true
+            forceSTSHeader=true
+            customResponseHeaders='X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
         [frontends.prox.auth.forward]
-        address = "http://oauth:4181"
-        authResponseHeaders = ["X-Forwarded-User"]
+            address = "http://oauth:4181"
+            authResponseHeaders = ["X-Forwarded-User"]
         [frontends.prox.routes.domain]
             rule = "Host:prox.murac.com"
     [frontends.pfsense]
         backend = "pfsense"
+        SSLRedirect = true
         passHostHeader = true
-        SSLRedirect=true
+        [frontends.pfsense.headers]
+            SSLHost = 'murac.com'
+            FrameDeny = true
+            STSSeconds = 315360000
+            STSIncludeSubdomains = true
+            STSPreload = true
+            ContentTypeNosniff = true
+            BrowserXssFilter = true
+            forceSTSHeader=true
+            customResponseHeaders='X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
         [frontends.pfsense.auth.forward]
-        address = "http://oauth:4181"
-        authResponseHeaders = ["X-Forwarded-User"]
+            address = "http://oauth:4181"
+            authResponseHeaders = ["X-Forwarded-User"]
         [frontends.pfsense.routes.domain]
             rule = "Host:pfsense.murac.com"
     [frontends.plex]
         backend = "plex"
         passHostHeader = true
         SSLRedirect=true
-        # [frontends.plex.auth.forward]
-        # address = "http://oauth:4181"
-        # authResponseHeaders = ["X-Forwarded-User"]
+        [frontends.plex.headers]
+            SSLHost = 'murac.com'
+            STSSeconds = 315360000
+            STSIncludeSubdomains = true
+            STSPreload = true
+            ContentTypeNosniff = true
+            BrowserXssFilter = true
+            forceSTSHeader=true
+            customResponseHeaders='X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
         [frontends.plex.routes.domain]
             rule = "Host:plex.murac.com"
+    ## Cockpit Frontend
+    [frontends.cockpit]
+        backend = "cockpit"
+        passHostHeader = true
+        SSLRedirect=true
+        [frontends.cockpit.headers]
+            SSLHost = 'murac.com'
+            STSSeconds = 315360000
+            STSIncludeSubdomains = true
+            STSPreload = true
+            ContentTypeNosniff = true
+            BrowserXssFilter = true
+            forceSTSHeader=true
+            customResponseHeaders='X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
+        [frontends.cockpit.auth.forward]
+            address = "http://oauth:4181"
+            authResponseHeaders = ["X-Forwarded-User"]
+        [frontends.cockpit.routes.cockpit]
+            rule = "Host:cockpit.murac.com"
+    ## Traefik Frontend
+    [frontends.traefik]
+        backend = "traefik"
+        passHostHeader = true
+        SSLRedirect=true
+        [frontends.traefik.headers]
+            SSLHost = 'murac.com'
+            FrameDeny = true
+            STSSeconds = 315360000
+            STSIncludeSubdomains = true
+            STSPreload = true
+            ContentTypeNosniff = true
+            BrowserXssFilter = true
+            forceSTSHeader=true
+            customResponseHeaders='X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
+        [frontends.traefik.auth.forward]
+            address = "http://oauth:4181"
+            authResponseHeaders = ["X-Forwarded-User"]
+        [frontends.traefik.routes.traefik]
+            rule = "Host:traefik.murac.com"
