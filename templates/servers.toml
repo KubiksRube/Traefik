@@ -7,6 +7,9 @@
     [backends.prox]
         [backends.prox.servers.prox]
             url = "https://192.168.20.55:8006"
+    [backends.unifi]
+        [backends.unifi.servers.unifi]
+            url = "https://192.168.20.56:8443"
     [backends.pfsense]
         [backends.pfsense.servers.pfsense]
             url = "https://worf.home.darmok.io"
@@ -49,7 +52,7 @@
         passHostHeader = true
         [frontends.prox.headers]
             SSLHost = 'murac.com'
-            FrameDeny = true
+#            FrameDeny = true
             STSSeconds = 315360000
             STSIncludeSubdomains = true
             STSPreload = true
@@ -62,6 +65,25 @@
             authResponseHeaders = ["X-Forwarded-User"]
         [frontends.prox.routes.domain]
             rule = "Host:prox.murac.com"
+    [frontends.unifi]
+        backend = "unifi"
+        SSLRedirect = true
+        passHostHeader = true
+        [frontends.unifi.headers]
+            SSLHost = 'murac.com'
+#            FrameDeny = true
+            STSSeconds = 315360000
+            STSIncludeSubdomains = true
+            STSPreload = true
+            ContentTypeNosniff = true
+            BrowserXssFilter = true
+            forceSTSHeader=true
+            customResponseHeaders='X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
+        [frontends.unifi.auth.forward]
+            address = "http://oauth:4181"
+            authResponseHeaders = ["X-Forwarded-User"]
+        [frontends.unifi.routes.domain]
+            rule = "Host:unifi.murac.com"
     [frontends.pfsense]
         backend = "pfsense"
         SSLRedirect = true
@@ -115,7 +137,7 @@
             authResponseHeaders = ["X-Forwarded-User"]
         [frontends.cockpit.routes.cockpit]
             rule = "Host:cockpit.murac.com"
-    ## Traefik Frontend
+        ## Traefik Frontend
     [frontends.traefik]
         backend = "traefik"
         passHostHeader = true
