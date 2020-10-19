@@ -35,25 +35,12 @@ entryPoint = "https"
 [acme.dnsChallenge]
 provider = "{{provider.stdout}}"
 delayBeforeCheck = "{{delaycheck.stdout}}"
+resolvers = ["208.67.222.222:53"]
 
 [[acme.domains]]
 main = "{{domain.stdout}}"
 [[acme.domains]]
 main = "*.{{domain.stdout}}"
-
-[backends]
-## Cockpit Backend
-[backends.cockpit]
-[backends.cockpit.servers.server]
-url = "https://127.0.0.1:9090"
-
-[frontends]
-## Cockpit Frontend
-[frontends.cockpit]
-backend = "cockpit"
-passHostHeader = true
-[frontends.cockpit.routes.cockpit]
-rule = "Host:cockpit.{{domain.stdout}}"
 
 [docker]
 endpoint = "unix:///var/run/docker.sock"
@@ -61,3 +48,139 @@ domain = "{{domain.stdout}}"
 watch = true
 exposedbydefault = false
 network = "plexguide"
+
+
+[backends]
+    [backends.freenas]
+        [backends.freenas.servers.freenas]
+            url = "http://192.168.20.10"
+    [backends.prox]
+        [backends.prox.loadbalancer.stickiness]
+        [backends.prox.servers.prox]
+            url = "https://192.168.20.55:8006"
+    [backends.unifi]
+        [backends.unifi.servers.unifi]
+            url = "https://192.168.20.56:8443"
+    [backends.pfsense]
+        [backends.pfsense.servers.pfsense]
+            url = "https://worf.home.darmok.io"
+    [backends.plex]
+        [backends.plex.servers.plex]
+            url = "http://192.168.20.20:32400"
+    ## Traefik Backend
+    [backends.traefik]
+        [backends.traefik.servers.traefik]
+            url = "http://localhost:8083"
+
+[frontends]
+    [frontends.freenas]
+        backend = "freenas"
+        SSLRedirect = true
+        passHostHeader = true
+        [frontends.freenas.headers]
+            SSLHost = 'murac.com'
+            FrameDeny = true
+            STSSeconds = 315360000
+            STSIncludeSubdomains = true
+            STSPreload = true
+            ContentTypeNosniff = true
+            BrowserXssFilter = true
+            forceSTSHeader = true
+            customResponseHeaders='X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
+        [frontends.freenas.auth.forward]
+            address = "http://oauth:4181"
+            authResponseHeaders = ["X-Forwarded-User"]
+        [frontends.freenas.routes.domain]
+            rule = "Host:freenas.{{domain.stdout}}"
+    [frontends.prox]
+        backend = "prox"
+        SSLRedirect = true
+        passHostHeader = true
+        [frontends.prox.headers]
+            SSLHost = 'murac.com'
+#            FrameDeny = true
+            STSSeconds = 315360000
+            STSIncludeSubdomains = true
+            STSPreload = true
+            ContentTypeNosniff = true
+            BrowserXssFilter = true
+            forceSTSHeader = true
+            customResponseHeaders='X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
+        [frontends.prox.auth.forward]
+            address = "http://oauth:4181"
+            authResponseHeaders = ["X-Forwarded-User"]
+        [frontends.prox.routes.domain]
+            rule = "Host:prox.{{domain.stdout}}"
+    [frontends.unifi]
+        backend = "unifi"
+        SSLRedirect = true
+        passHostHeader = true
+        [frontends.unifi.headers]
+            SSLHost = 'murac.com'
+#            FrameDeny = true
+            STSSeconds = 315360000
+            STSIncludeSubdomains = true
+            STSPreload = true
+            ContentTypeNosniff = true
+            BrowserXssFilter = true
+            forceSTSHeader = true
+            customResponseHeaders='X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
+        [frontends.unifi.auth.forward]
+            address = "http://oauth:4181"
+            authResponseHeaders = ["X-Forwarded-User"]
+        [frontends.unifi.routes.domain]
+            rule = "Host:unifi.{{domain.stdout}}"
+    [frontends.pfsense]
+        backend = "pfsense"
+        SSLRedirect = true
+        passHostHeader = true
+        [frontends.pfsense.headers]
+            SSLHost = 'murac.com'
+            FrameDeny = true
+            STSSeconds = 315360000
+            STSIncludeSubdomains = true
+            STSPreload = true
+            ContentTypeNosniff = true
+            BrowserXssFilter = true
+            forceSTSHeader = true
+            customResponseHeaders='X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
+        [frontends.pfsense.auth.forward]
+            address = "http://oauth:4181"
+            authResponseHeaders = ["X-Forwarded-User"]
+        [frontends.pfsense.routes.domain]
+            rule = "Host:pfsense.{{domain.stdout}}"
+    [frontends.plex]
+        backend = "plex"
+        passHostHeader = true
+        SSLRedirect=true
+        [frontends.plex.headers]
+            SSLHost = 'murac.com'
+            STSSeconds = 315360000
+            STSIncludeSubdomains = true
+            STSPreload = true
+            ContentTypeNosniff = true
+            BrowserXssFilter = true
+            forceSTSHeader = true
+            customResponseHeaders='X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
+        [frontends.plex.routes.domain]
+            rule = "Host:plex.{{domain.stdout}}"
+        ## Traefik Frontend
+    [frontends.traefik]
+        backend = "traefik"
+        passHostHeader = true
+        SSLRedirect = true
+        [frontends.traefik.headers]
+            SSLHost = 'murac.com'
+            FrameDeny = true
+            STSSeconds = 315360000
+            STSIncludeSubdomains = true
+            STSPreload = true
+            ContentTypeNosniff = true
+            BrowserXssFilter = true
+            forceSTSHeader = true
+            customResponseHeaders='X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
+        [frontends.traefik.auth.forward]
+            address = "http://oauth:4181"
+            authResponseHeaders = ["X-Forwarded-User"]
+        [frontends.traefik.routes.traefik]
+            rule = "Host:traefik.{{domain.stdout}}"
