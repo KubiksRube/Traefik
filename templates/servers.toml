@@ -4,23 +4,42 @@
 [backends.freenas]
 [backends.freenas.servers.freenas]
 url = "http://192.168.20.10"
+
+
 [backends.prox]
 [backends.prox.loadbalancer.stickiness]
-[backends.prox.servers.prox]
-url = "https://192.168.20.55:8006"
+[backends.prox.servers.prox1]
+url = "https://192.168.20.61:8006"
+weight = 10
+[backends.prox.servers.prox2]
+url = "https://192.168.20.62:8006"
+weight = 1
+[backends.prox.servers.prox3]
+url = "https://192.168.20.63:8006"
+weight = 1
+
+
 [backends.unifi]
 [backends.unifi.servers.unifi]
 url = "https://192.168.20.56:8443"
+
+
 [backends.pfsense]
 [backends.pfsense.servers.pfsense]
 url = "https://worf.home.darmok.io"
+
+
 [backends.plex]
 [backends.plex.servers.plex]
 url = "http://192.168.20.20:32400"
+
+
 ## Traefik Backend
 [backends.traefik]
 [backends.traefik.servers.traefik]
 url = "http://localhost:8083"
+
+
 
 [frontends]
 [frontends.freenas]
@@ -42,6 +61,8 @@ address = "http://oauth:4181"
 authResponseHeaders = ["X-Forwarded-User"]
 [frontends.freenas.routes.domain]
 rule = "Host:freenas.{{domain.stdout}}"
+
+
 [frontends.prox]
 backend = "prox"
 SSLRedirect = true
@@ -61,6 +82,8 @@ address = "http://oauth:4181"
 authResponseHeaders = ["X-Forwarded-User"]
 [frontends.prox.routes.domain]
 rule = "Host:prox.{{domain.stdout}}"
+
+
 [frontends.unifi]
 backend = "unifi"
 SSLRedirect = true
@@ -80,6 +103,8 @@ address = "http://oauth:4181"
 authResponseHeaders = ["X-Forwarded-User"]
 [frontends.unifi.routes.domain]
 rule = "Host:unifi.{{domain.stdout}}"
+
+
 [frontends.pfsense]
 backend = "pfsense"
 SSLRedirect = true
@@ -99,10 +124,12 @@ address = "http://oauth:4181"
 authResponseHeaders = ["X-Forwarded-User"]
 [frontends.pfsense.routes.domain]
 rule = "Host:pfsense.{{domain.stdout}}"
+
+
 [frontends.plex]
 backend = "plex"
 passHostHeader = true
-SSLRedirect=true
+SSLRedirect = true
 [frontends.plex.headers]
 SSLHost = 'murac.com'
 STSSeconds = 315360000
@@ -112,8 +139,13 @@ ContentTypeNosniff = true
 BrowserXssFilter = true
 forceSTSHeader = true
 customResponseHeaders='X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
+HostsProxyHeaders = ["X-Forwarded-Hosts"]
+[frontends.plex.headers.SSLProxyHeaders]
+X-Forwarded-Proto = "https"
 [frontends.plex.routes.domain]
 rule = "Host:plex.{{domain.stdout}}"
+
+
 ## Traefik Frontend
 [frontends.traefik]
 backend = "traefik"

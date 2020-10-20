@@ -5,10 +5,13 @@
 # URL:        https://pgblitz.com - http://github.pgblitz.com
 # GNU:        General Public License v3.0
 ################################################################################
+checkNewVersion = false
 
 insecureskipverify = true
 
-logLevel = "WARN"
+logLevel = "DEBUG"
+
+debug = true
 
 defaultEntryPoints = ["http", "https"]
 
@@ -17,6 +20,11 @@ defaultEntryPoints = ["http", "https"]
 address = ":80"
 [entryPoints.http.redirect]
 entryPoint = "https"
+[entryPoints.http.proxyProtocol]
+trustedIPs = ["0.0.0.0/0"]
+insecure = true
+[entryPoints.http.forwardedHeaders]
+trustedIPs = ["0.0.0.0/0"]
 [entryPoints.https]
 address = ":443"
 [entryPoints.https.tls]
