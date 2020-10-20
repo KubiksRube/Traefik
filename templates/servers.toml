@@ -55,7 +55,7 @@ STSPreload = true
 ContentTypeNosniff = true
 BrowserXssFilter = true
 forceSTSHeader = true
-customResponseHeaders='X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
+customResponseHeaders = 'X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
 [frontends.freenas.auth.forward]
 address = "http://oauth:4181"
 authResponseHeaders = ["X-Forwarded-User"]
@@ -76,7 +76,7 @@ STSPreload = true
 ContentTypeNosniff = true
 BrowserXssFilter = true
 forceSTSHeader = true
-customResponseHeaders='X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
+customResponseHeaders = 'X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
 [frontends.prox.auth.forward]
 address = "http://oauth:4181"
 authResponseHeaders = ["X-Forwarded-User"]
@@ -97,7 +97,7 @@ STSPreload = true
 ContentTypeNosniff = true
 BrowserXssFilter = true
 forceSTSHeader = true
-customResponseHeaders='X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
+customResponseHeaders = 'X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
 [frontends.unifi.auth.forward]
 address = "http://oauth:4181"
 authResponseHeaders = ["X-Forwarded-User"]
@@ -138,7 +138,7 @@ STSPreload = true
 ContentTypeNosniff = true
 BrowserXssFilter = true
 forceSTSHeader = true
-customResponseHeaders='X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
+customResponseHeaders = 'X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
 HostsProxyHeaders = ["X-Forwarded-Hosts"]
 [frontends.plex.headers.SSLProxyHeaders]
 X-Forwarded-Proto = "https"
@@ -160,7 +160,7 @@ STSPreload = true
 ContentTypeNosniff = true
 BrowserXssFilter = true
 forceSTSHeader = true
-customResponseHeaders='X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
+customResponseHeaders = 'X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
 [frontends.traefik.auth.forward]
 address = "http://oauth:4181"
 authResponseHeaders = ["X-Forwarded-User"]
