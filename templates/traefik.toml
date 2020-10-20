@@ -9,9 +9,9 @@ checkNewVersion = false
 
 insecureskipverify = true
 
-logLevel = "DEBUG"
+logLevel = "INFO"
 
-debug = true
+# debug = true
 
 defaultEntryPoints = ["http", "https"]
 
